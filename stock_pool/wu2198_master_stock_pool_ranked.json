@@ -1,6 +1,6 @@
 {
-  "ranked_at": "2026-07-19T19:00:22+08:00",
-  "generated_at": "2026-07-19T19:00:22+08:00",
+  "ranked_at": "2026-07-20T07:00:25+08:00",
+  "generated_at": "2026-07-20T07:00:25+08:00",
   "stocks": [
     {
       "stock_code": "300308",
@@ -89,11 +89,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -110,11 +110,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -131,11 +131,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -152,11 +152,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -172,11 +172,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -192,11 +192,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -212,11 +212,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -232,90 +232,54 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "600519",
-      "stock_name": "贵州茅台",
-      "code": "600519",
-      "name": "贵州茅台",
-      "sector": "白酒",
+      "stock_code": "601888",
+      "stock_name": "中国中免",
+      "code": "601888",
+      "name": "中国中免",
+      "sector": "消费",
       "themes": [
-        "白酒"
+        "消费",
+        "存储"
       ],
-      "live_score": 59.7,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 59.7,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "mentions": 3,
+      "latest_created_at": "2026-07-19T21:59:18+08:00",
       "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
+        "由主题消费自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "000858",
-      "stock_name": "五粮液",
-      "code": "000858",
-      "name": "五粮液",
-      "sector": "白酒",
+      "stock_code": "000333",
+      "stock_name": "美的集团",
+      "code": "000333",
+      "name": "美的集团",
+      "sector": "消费",
       "themes": [
-        "白酒"
+        "消费",
+        "存储"
       ],
-      "live_score": 59.7,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 59.7,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "mentions": 3,
+      "latest_created_at": "2026-07-19T21:59:18+08:00",
       "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "000568",
-      "stock_name": "泸州老窖",
-      "code": "000568",
-      "name": "泸州老窖",
-      "sector": "白酒",
-      "themes": [
-        "白酒"
-      ],
-      "live_score": 59.7,
-      "live_bucket": "弹性个股",
-      "score": 59.7,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
-      "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "600809",
-      "stock_name": "山西汾酒",
-      "code": "600809",
-      "name": "山西汾酒",
-      "sector": "白酒",
-      "themes": [
-        "白酒"
-      ],
-      "live_score": 59.7,
-      "live_bucket": "弹性个股",
-      "score": 59.7,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
-      "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
+        "由主题消费自动映射进入该条微博股票池"
       ]
     },
     {
@@ -376,43 +340,79 @@
       ]
     },
     {
-      "stock_code": "601888",
-      "stock_name": "中国中免",
-      "code": "601888",
-      "name": "中国中免",
-      "sector": "消费",
+      "stock_code": "600519",
+      "stock_name": "贵州茅台",
+      "code": "600519",
+      "name": "贵州茅台",
+      "sector": "白酒",
       "themes": [
-        "消费",
-        "存储"
+        "白酒"
       ],
-      "live_score": 58.0,
+      "live_score": 56.6,
       "live_bucket": "弹性个股",
-      "score": 58.0,
+      "score": 56.6,
       "bucket": "弹性个股",
-      "mentions": 2,
-      "latest_created_at": "2026-07-18T19:59:05+08:00",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
       "reasons": [
-        "由主题消费自动映射进入该条微博股票池"
+        "由主题白酒自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "000333",
-      "stock_name": "美的集团",
-      "code": "000333",
-      "name": "美的集团",
-      "sector": "消费",
+      "stock_code": "000858",
+      "stock_name": "五粮液",
+      "code": "000858",
+      "name": "五粮液",
+      "sector": "白酒",
       "themes": [
-        "消费",
-        "存储"
+        "白酒"
       ],
-      "live_score": 58.0,
+      "live_score": 56.6,
       "live_bucket": "弹性个股",
-      "score": 58.0,
+      "score": 56.6,
       "bucket": "弹性个股",
-      "mentions": 2,
-      "latest_created_at": "2026-07-18T19:59:05+08:00",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
       "reasons": [
-        "由主题消费自动映射进入该条微博股票池"
+        "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "000568",
+      "stock_name": "泸州老窖",
+      "code": "000568",
+      "name": "泸州老窖",
+      "sector": "白酒",
+      "themes": [
+        "白酒"
+      ],
+      "live_score": 56.6,
+      "live_bucket": "弹性个股",
+      "score": 56.6,
+      "bucket": "弹性个股",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "reasons": [
+        "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "600809",
+      "stock_name": "山西汾酒",
+      "code": "600809",
+      "name": "山西汾酒",
+      "sector": "白酒",
+      "themes": [
+        "白酒"
+      ],
+      "live_score": 56.6,
+      "live_bucket": "弹性个股",
+      "score": 56.6,
+      "bucket": "弹性个股",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "reasons": [
+        "由主题白酒自动映射进入该条微博股票池"
       ]
     },
     {
@@ -879,11 +879,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -900,11 +900,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -921,11 +921,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -942,11 +942,11 @@
         "半导体",
         "消费"
       ],
-      "live_score": 66.0,
+      "live_score": 65.7,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 65.7,
       "bucket": "弹性个股",
-      "mentions": 6,
+      "mentions": 4,
       "latest_created_at": "2026-07-18T18:05:30+08:00",
       "reasons": [
         "由主题存储自动映射进入该条微博股票池"
@@ -962,11 +962,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -982,11 +982,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -1002,11 +1002,11 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
@@ -1022,90 +1022,54 @@
         "半导体",
         "存储"
       ],
-      "live_score": 63.5,
+      "live_score": 59.0,
       "live_bucket": "弹性个股",
-      "score": 63.5,
+      "score": 59.0,
       "bucket": "弹性个股",
-      "mentions": 3,
+      "mentions": 1,
       "latest_created_at": "2026-07-18T07:19:38+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "600519",
-      "stock_name": "贵州茅台",
-      "code": "600519",
-      "name": "贵州茅台",
-      "sector": "白酒",
+      "stock_code": "601888",
+      "stock_name": "中国中免",
+      "code": "601888",
+      "name": "中国中免",
+      "sector": "消费",
       "themes": [
-        "白酒"
+        "消费",
+        "存储"
       ],
-      "live_score": 59.7,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 59.7,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "mentions": 3,
+      "latest_created_at": "2026-07-19T21:59:18+08:00",
       "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
+        "由主题消费自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "000858",
-      "stock_name": "五粮液",
-      "code": "000858",
-      "name": "五粮液",
-      "sector": "白酒",
+      "stock_code": "000333",
+      "stock_name": "美的集团",
+      "code": "000333",
+      "name": "美的集团",
+      "sector": "消费",
       "themes": [
-        "白酒"
+        "消费",
+        "存储"
       ],
-      "live_score": 59.7,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 59.7,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "mentions": 3,
+      "latest_created_at": "2026-07-19T21:59:18+08:00",
       "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "000568",
-      "stock_name": "泸州老窖",
-      "code": "000568",
-      "name": "泸州老窖",
-      "sector": "白酒",
-      "themes": [
-        "白酒"
-      ],
-      "live_score": 59.7,
-      "live_bucket": "弹性个股",
-      "score": 59.7,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
-      "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "600809",
-      "stock_name": "山西汾酒",
-      "code": "600809",
-      "name": "山西汾酒",
-      "sector": "白酒",
-      "themes": [
-        "白酒"
-      ],
-      "live_score": 59.7,
-      "live_bucket": "弹性个股",
-      "score": 59.7,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-17T21:55:56+08:00",
-      "reasons": [
-        "由主题白酒自动映射进入该条微博股票池"
+        "由主题消费自动映射进入该条微博股票池"
       ]
     },
     {
@@ -1166,43 +1130,79 @@
       ]
     },
     {
-      "stock_code": "601888",
-      "stock_name": "中国中免",
-      "code": "601888",
-      "name": "中国中免",
-      "sector": "消费",
+      "stock_code": "600519",
+      "stock_name": "贵州茅台",
+      "code": "600519",
+      "name": "贵州茅台",
+      "sector": "白酒",
       "themes": [
-        "消费",
-        "存储"
+        "白酒"
       ],
-      "live_score": 58.0,
+      "live_score": 56.6,
       "live_bucket": "弹性个股",
-      "score": 58.0,
+      "score": 56.6,
       "bucket": "弹性个股",
-      "mentions": 2,
-      "latest_created_at": "2026-07-18T19:59:05+08:00",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
       "reasons": [
-        "由主题消费自动映射进入该条微博股票池"
+        "由主题白酒自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "000333",
-      "stock_name": "美的集团",
-      "code": "000333",
-      "name": "美的集团",
-      "sector": "消费",
+      "stock_code": "000858",
+      "stock_name": "五粮液",
+      "code": "000858",
+      "name": "五粮液",
+      "sector": "白酒",
       "themes": [
-        "消费",
-        "存储"
+        "白酒"
       ],
-      "live_score": 58.0,
+      "live_score": 56.6,
       "live_bucket": "弹性个股",
-      "score": 58.0,
+      "score": 56.6,
       "bucket": "弹性个股",
-      "mentions": 2,
-      "latest_created_at": "2026-07-18T19:59:05+08:00",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
       "reasons": [
-        "由主题消费自动映射进入该条微博股票池"
+        "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "000568",
+      "stock_name": "泸州老窖",
+      "code": "000568",
+      "name": "泸州老窖",
+      "sector": "白酒",
+      "themes": [
+        "白酒"
+      ],
+      "live_score": 56.6,
+      "live_bucket": "弹性个股",
+      "score": 56.6,
+      "bucket": "弹性个股",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "reasons": [
+        "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "600809",
+      "stock_name": "山西汾酒",
+      "code": "600809",
+      "name": "山西汾酒",
+      "sector": "白酒",
+      "themes": [
+        "白酒"
+      ],
+      "live_score": 56.6,
+      "live_bucket": "弹性个股",
+      "score": 56.6,
+      "bucket": "弹性个股",
+      "mentions": 1,
+      "latest_created_at": "2026-07-17T21:55:56+08:00",
+      "reasons": [
+        "由主题白酒自动映射进入该条微博股票池"
       ]
     },
     {
