@@ -1,0 +1,10 @@
+*.conf
+*.token
+*.key
+.env
+cookie*
+*.cookie
+*.db
+*.sqlite
+__pycache__/
+*.pyc

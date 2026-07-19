@@ -1,0 +1,21 @@
+{
+  "date": "2026-07-17",
+  "price": 3764.15,
+  "score": 2.0,
+  "verdict": "偏多🐂",
+  "bull": null,
+  "bear": null,
+  "rsi": 29.85,
+  "rsi_zone": "超卖",
+  "ma_arrangement": "MA5=3896.61 / MA20=4019.96 / MA60=4075.78",
+  "ma_cross": "-",
+  "boll_position": "中轨附近",
+  "boll_squeeze": "-",
+  "kdj_zone": "-",
+  "kdj_cross": "-",
+  "volume_vs_avg20": "-",
+  "volume_divergence": null,
+  "mtf_resonance": "-",
+  "gap_count": 0,
+  "brief": "📊 上证指数技术简报 - 2026-07-17\n收盘价：3764.15\n综合评分：2.0（偏多🐂）\n看多信号 - / 看空信号 -\n\nRSI：29.85（超卖）\n均线：MA5=3896.61 / MA20=4019.96 / MA60=4075.78 / -\n布林：中轨附近 / -\nKDJ：- / -\n量能：- / 无背离\n多周期：-"
+}

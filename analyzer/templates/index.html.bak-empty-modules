@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wu2198 微博股票分析</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #e6edf3; --text2: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --red: #f85149; --yellow: #d29922; --purple: #bc8cff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+.header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 20; background: rgba(13,17,23,0.92); backdrop-filter: blur(8px); }
+.grid { max-width: 1400px; margin: 0 auto; }
+.card { box-shadow: 0 1px 0 rgba(255,255,255,0.02); }
+.table-wrap { overflow-x: auto; }
+.header h1 { font-size: 20px; font-weight: 600; }
+.header h1 span { color: var(--accent); }
+.header .meta { font-size: 12px; color: var(--text2); }
+.grid { display: grid; gap: 16px; padding: 16px 24px; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.card h2 { font-size: 13px; color: var(--text2); font-weight: 500; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat { text-align: center; }
+.stat .num { font-size: 32px; font-weight: 700; }
+.stat .label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+.signal-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: 600; }
+.signal-bull { background: rgba(63,185,80,0.15); color: var(--green); }
+.signal-bear { background: rgba(248,81,73,0.15); color: var(--red); }
+.signal-neutral { background: rgba(210,153,34,0.15); color: var(--yellow); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--text2); font-weight: 500; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+td { padding: 8px 6px; border-bottom: 1px solid rgba(48,54,61,0.5); }
+.stock-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 1px; }
+.tag-core { background: rgba(248,81,73,0.15); color: var(--red); }
+.tag-elastic { background: rgba(210,153,34,0.15); color: var(--yellow); }
+.tag-watch { background: rgba(88,166,255,0.15); color: var(--accent); }
+.theme-tag { background: rgba(188,140,255,0.15); color: var(--purple); padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px; display: inline-block; }
+.sector-item { padding: 10px; border-bottom: 1px solid rgba(48,54,61,0.3); }
+.sector-item:last-child { border-bottom: none; }
+.sector-name { font-weight: 600; font-size: 14px; }
+.sector-meta { font-size: 12px; color: var(--text2); margin-top: 4px; }
+.sector-stocks { margin-top: 6px; }
+.score-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 4px; }
+.score-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--green)); }
+.vip-item { padding: 8px; border-left: 3px solid var(--yellow); margin-bottom: 8px; background: rgba(210,153,34,0.05); border-radius: 0 4px 4px 0; }
+.vip-item .time { font-size: 11px; color: var(--text2); }
+.vip-item .text { font-size: 13px; margin-top: 4px; line-height: 1.5; }
+@media (max-width: 900px) {
+  .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  .header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .grid { padding: 12px; }
+  .stat .num { font-size: 26px; }
+}
+@media (max-width: 520px) {
+  .grid-4, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 <span>wu2198</span> 微博股票分析</h1>
+  <div class="meta" id="updateTime">加载中...</div>
+</div>
+
+<!-- 波浪分析 + 指数走势预测 -->
+<div class="grid grid-2">
+  <div class="card" style="grid-column: span 2">
+    <h2>🌊 wu2198 波浪理论分析 · 上证指数走势预测</h2>
+    <div id="waveSummary" style="margin-bottom:16px"></div>
+    <div id="waveChart" style="height:400px"></div>
+    <div id="wavePrediction" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<!-- 缠论技术分析 -->
+<div class="grid grid-2">
+  <div class="card" style="grid-column: span 2">
+    <h2>🔮 缠论技术分析 · 分型/笔/中枢/买卖点</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button onclick="loadChanlun('sh')" id="btnChanlunSH" style="padding:6px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer">上证指数</button>
+      <button onclick="loadChanlun('cyb')" id="btnChanlunCYB" style="padding:6px 16px;background:var(--border);color:var(--text);border:none;border-radius:4px;cursor:pointer">创业板</button>
+    </div>
+    <div id="chanlunSummary"></div>
+    <div id="chanlunChart" style="height:350px"></div>
+    <div id="chanlunDetail" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<!-- 综合技术指标 + 评分 -->
+<div class="grid grid-2">
+  <div class="card">
+    <h2>📊 综合技术指标</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button onclick="loadIndicators('sh')" id="btnIndSH" style="padding:6px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer">上证</button>
+      <button onclick="loadIndicators('cyb')" id="btnIndCYB" style="padding:6px 16px;background:var(--border);color:var(--text);border:none;border-radius:4px;cursor:pointer">创业板</button>
+    </div>
+    <div id="indicatorsPanel"></div>
+  </div>
+  <div class="card">
+    <h2>⚖️ 综合评分 · 多空判断</h2>
+    <div id="scorePanel"></div>
+  </div>
+</div>
+
+<!-- 板块轮动热力图 -->
+<div class="grid grid-2">
+  <div class="card" style="grid-column: span 2">
+    <h2>🔲 板块轮动热力图</h2>
+    <div id="sectorHeatmap" style="height:420px"></div>
+  </div>
+</div>
+
+<!-- 个股技术面扫描 -->
+<div class="grid grid-2">
+  <div class="card" style="grid-column: span 2">
+    <h2>🔎 个股技术面扫描</h2>
+    <div style="margin-bottom:12px">
+      <button onclick="loadStockScan()" id="btnStockScan" style="padding:6px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer">🔄 刷新扫描</button>
+      <span id="stockScanStatus" style="font-size:12px;color:var(--text2);margin-left:8px"></span>
+    </div>
+    <div id="stockScanPanel"><div style="color:var(--text2);text-align:center;padding:40px">点击"刷新扫描"加载数据</div></div>
+  </div>
+</div>
+
+<!-- 历史回测结果 -->
+<div class="grid grid-2">
+  <div class="card" style="grid-column: span 2">
+    <h2>📈 历史回测结果</h2>
+    <div id="backtestSummary" style="margin-bottom:12px"></div>
+    <div id="backtestPanel"><div style="color:var(--text2);text-align:center;padding:40px">加载中...</div></div>
+  </div>
+</div>
+
+<!-- 概览 -->
+<div class="grid grid-4" id="overviewCards">
+  <div class="card stat"><div class="num" id="liveCount">-</div><div class="label">实时股票池</div></div>
+  <div class="card stat"><div class="num" id="masterCount">-</div><div class="label">主股票池</div></div>
+  <div class="card stat"><div class="num" id="sectorCount">-</div><div class="label">活跃板块</div></div>
+  <div class="card stat" id="signalCard"><div id="marketSignal" class="signal-badge signal-neutral">中性</div><div class="label" style="margin-top:8px">市场信号</div></div>
+</div>
+
+<!-- 指数预测 + 板块热度 -->
+<div class="grid grid-2">
+  <div class="card">
+    <h2>🔥 热门板块 (实时动量)</h2>
+    <div id="hotSectors" style="min-height:300px"></div>
+  </div>
+  <div class="card">
+    <h2>📈 板块强度 (历史累积)</h2>
+    <div id="sectorStrength" style="min-height:300px"></div>
+  </div>
+</div>
+
+<!-- 推荐股票 -->
+<div class="grid grid-3">
+  <div class="card">
+    <h2>🎯 核心持仓</h2>
+    <table><thead><tr><th>股票</th><th>板块</th><th>提及</th></tr></thead>
+    <tbody id="coreStocks"></tbody></table>
+  </div>
+  <div class="card">
+    <h2>⚡ 弹性个股</h2>
+    <table><thead><tr><th>股票</th><th>板块</th><th>提及</th></tr></thead>
+    <tbody id="elasticStocks"></tbody></table>
+  </div>
+  <div class="card">
+    <h2>👁️ 观察池</h2>
+    <table><thead><tr><th>股票</th><th>板块</th><th>提及</th></tr></thead>
+    <tbody id="watchStocks"></tbody></table>
+  </div>
+</div>
+
+<!-- 实时股票池 + VIP信号 -->
+<div class="grid grid-2">
+  <div class="card">
+    <h2>🌊 实时股票池 (按得分排序)</h2>
+    <table><thead><tr><th>股票</th><th>得分</th><th>类型</th><th>板块</th><th>最新</th></tr></thead>
+    <tbody id="liveStocks"></tbody></table>
+  </div>
+  <div class="card">
+    <h2>⭐ VIP 信号</h2>
+    <div id="vipSignals"></div>
+  </div>
+</div>
+
+<!-- 板块分布图 + 点位趋势 -->
+<div class="grid grid-2">
+  <div class="card">
+    <h2>🥧 板块分布</h2>
+    <div id="sectorPie" style="height:350px"></div>
+  </div>
+  <div class="card">
+    <h2>📍 点位趋势</h2>
+    <div id="trendTable"></div>
+  </div>
+</div>
+
+<script>
+const BASE = '';
+
+async function fetchAPI(path) {
+  const r = await fetch(BASE + path);
+  return r.json();
+}
+
+function tagClass(bucket) {
+  if (!bucket) return 'tag-watch';
+  if (bucket.includes('核心')) return 'tag-core';
+  if (bucket.includes('弹性')) return 'tag-elastic';
+  return 'tag-watch';
+}
+
+function signalClass(dir) {
+  if (dir.includes('多') || dir.includes('涨') || dir.includes('bull')) return 'signal-bull';
+  if (dir.includes('空') || dir.includes('跌') || dir.includes('bear')) return 'signal-bear';
+  return 'signal-neutral';
+}
+
+async function loadOverview() {
+  const d = await fetchAPI('/api/overview');
+  document.getElementById('liveCount').textContent = d.live_stock_count;
+  document.getElementById('masterCount').textContent = d.master_stock_count;
+  document.getElementById('sectorCount').textContent = Object.keys(d.sector_distribution).length;
+  document.getElementById('updateTime').textContent = '更新于 ' + d.updated_at;
+
+  // Market signal
+  const pred = await fetchAPI('/api/index-prediction');
+  const sig = pred.market_signal;
+  const el = document.getElementById('marketSignal');
+  el.textContent = sig.direction + ' · ' + sig.strength;
+  el.className = 'signal-badge ' + signalClass(sig.direction);
+
+  // Hot sectors
+  let hhtml = '';
+  pred.hot_sectors.forEach(s => {
+    const pct = Math.min(100, s.momentum_score / 3);
+    hhtml += `<div class="sector-item">
+      <div class="sector-name">${s.name} <span style="color:var(--accent);font-size:12px">动量 ${s.momentum_score}</span></div>
+      <div class="sector-meta">${s.stock_count} 只股票</div>
+      <div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div>
+      <div class="sector-stocks">${s.stocks.map(n=>`<span class="stock-tag tag-elastic">${n}</span>`).join('')}</div>
+    </div>`;
+  });
+  document.getElementById('hotSectors').innerHTML = hhtml;
+
+  // Sector strength
+  let shtml = '';
+  pred.sector_strength.forEach(s => {
+    const pct = Math.min(100, s.total_mentions * 5);
+    shtml += `<div class="sector-item">
+      <div class="sector-name">${s.name} <span style="color:var(--green);font-size:12px">提及 ${s.total_mentions}次</span></div>
+      <div class="sector-meta">${s.stock_count} 只股票</div>
+      <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--green),var(--yellow))"></div></div>
+      <div class="sector-stocks">${s.stocks.map(n=>`<span class="stock-tag tag-core">${n}</span>`).join('')}</div>
+    </div>`;
+  });
+  document.getElementById('sectorStrength').innerHTML = shtml;
+
+  // Stock recommendations
+  const cats = {core: 'coreStocks', elastic: 'elasticStocks', watch: 'watchStocks'};
+  for (const [k, id] of Object.entries(cats)) {
+    const stocks = pred.recommendations[k] || [];
+    const topPicks = (k === 'core' || k === 'elastic') && stocks.length === 0 ? pred.top_picks.slice(0, 5) : stocks;
+    document.getElementById(id).innerHTML = (stocks.length > 0 ? stocks : topPicks).map(s =>
+      `<tr><td><strong>${s.name || s.stock_name || ''}</strong><br><span style="font-size:11px;color:var(--text2)">${s.code || s.stock_code || ''}</span></td>
+      <td>${s.sector || s.live_bucket || s.bucket || ''}</td><td>${s.total_mentions || s.weibo_mentions || 0}</td></tr>`
+    ).join('');
+  }
+
+  // Live stocks
+  const live = await fetchAPI('/api/live-pool');
+  document.getElementById('liveStocks').innerHTML = live.stocks.map(s =>
+    `<tr><td><strong>${s.name}</strong><br><span style="font-size:11px;color:var(--text2)">${s.code}</span></td>
+    <td><strong>${s.score}</strong></td>
+    <td><span class="stock-tag ${tagClass(s.bucket)}">${s.bucket}</span></td>
+    <td>${(s.themes||[]).map(t=>`<span class="theme-tag">${t}</span>`).join('')}</td>
+    <td style="font-size:12px;color:var(--text2)">${s.latest || s.latest_created_at ? (s.latest || s.latest_created_at).replace(/T.*$/,'').substring(5) : '-'}${s.latest_age_hours ? ' ('+s.latest_age_hours+'h前)' : ''}</td></tr>`
+  ).join('');
+
+  // VIP signals
+  const msgs = await fetchAPI('/api/messages');
+  const vipArr = msgs.vip_messages || [];
+  document.getElementById('vipSignals').innerHTML = vipArr.slice(0, 8).map(v =>
+    `<div class="vip-item"><div class="time">${v.created_at || v.time || ''}</div>
+    <div class="text">${(v.text || v.summary || '').substring(0, 200)}</div></div>`
+  ).join('') || '<div style="color:var(--text2);text-align:center;padding:40px">暂无VIP信号</div>';
+
+  // Sector pie chart - use live themes + master sectors combined
+  const pieChart = echarts.init(document.getElementById('sectorPie'));
+  const livePie = Object.entries(d.sector_distribution).map(([k,v]) => ({name: k, value: v}));
+  const masterPie = Object.entries(d.master_sector_distribution).filter(([k]) => k && k !== '其他').map(([k,v]) => ({name: k, value: v}));
+  const pieData = masterPie.length > 2 ? masterPie : livePie;
+  pieChart.setOption({
+    tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+    series: [{
+      type: 'pie', radius: ['40%', '70%'],
+      label: { color: '#8b949e', fontSize: 11 },
+      itemStyle: { borderColor: '#161b22', borderWidth: 2 },
+      data: pieData,
+      color: ['#58a6ff','#3fb950','#f85149','#d29922','#bc8cff','#79c0ff','#ffa657','#ff7b72','#7ee787','#d2a8ff']
+    }]
+  });
+
+  // Point trend
+  const trend = d.point_trend || [];
+  document.getElementById('trendTable').innerHTML = trend.length ?
+    '<table><thead><tr><th>时间</th><th>方向</th><th>级别</th><th>原因</th></tr></thead><tbody>' +
+    trend.map(t => `<tr><td>${t.time}</td><td><span class="signal-badge ${signalClass(t.direction)}" style="font-size:11px">${t.direction}</span></td><td>${t.level}</td><td style="font-size:12px">${t.reason}</td></tr>`).join('') +
+    '</tbody></table>' : '<div style="color:var(--text2);text-align:center;padding:40px">暂无点位数据</div>';
+}
+
+// Auto-refresh every 5 minutes
+loadOverview();
+loadWaveAnalysis();
+loadChanlun('sh');
+setInterval(loadOverview, 300000);
+
+// Responsive charts
+window.addEventListener('resize', () => {
+  document.querySelectorAll('[_echarts_instance_]').forEach(el => {
+    echarts.getInstanceByDom(el)?.resize();
+  });
+});
+
+async function loadWaveAnalysis() {
+  const d = await fetchAPI('/api/wave-analysis');
+  const ca = d.current_analysis;
+  const waves = d.waves;
+
+  // Summary cards
+  let summary = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">';
+  waves.forEach(w => {
+    const colors = {completed: 'var(--green)', 'in_progress': 'var(--yellow)', pending: 'var(--text2)'};
+    const c = colors[w.status] || 'var(--text2)';
+    const statusLabel = {completed:'✅完成','in_progress':'🔄进行中',pending:'⏳待定'}[w.status]||'';
+    summary += `<div style="flex:1;min-width:150px;padding:10px;background:rgba(0,0,0,0.2);border-radius:6px;border-left:3px solid ${c}">
+      <div style="font-weight:600;font-size:14px;color:${c}">${w.name}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">${w.description}</div>
+      ${w.start_price ? `<div style="font-size:13px;margin-top:4px">${w.start_price}→${w.end_price||'?'}</div>` : ''}
+      ${w.pct ? `<div style="font-size:12px;color:${w.pct>0?'var(--green)':'var(--red)'}">${w.pct>0?'+':''}${w.pct}%</div>` : ''}
+      <div style="font-size:11px;color:var(--text2)">${statusLabel}</div>
+    </div>`;
+  });
+  summary += '</div>';
+  if (ca) {
+    summary += `<div style="padding:10px;background:rgba(88,166,255,0.08);border-radius:6px;border:1px solid rgba(88,166,255,0.2)">
+      <div style="font-size:15px;font-weight:600">📍 当前位置：上证 ${ca.current_price} · ${ca.zone} · 距高点-${ca.drop_from_4258}%</div>
+      <div style="font-size:13px;margin-top:6px;color:var(--accent)">${ca.outlook}</div>
+    </div>`;
+  }
+  document.getElementById('waveSummary').innerHTML = summary;
+
+  // K-line chart with wave annotations
+  if (d.kline && d.kline.length > 0) {
+    const chart = echarts.init(document.getElementById('waveChart'));
+    const dates = d.kline.map(k => k.date);
+    const ohlc = d.kline.map(k => [k.open, k.close, k.low, k.high]);
+    const closes = d.kline.map(k => k.close);
+
+    // Build wave markPoints and markLines from waves data
+    const waveMarkPoints = [];
+    const waveMarkLines = [];
+    const waveMarkAreas = [];
+    const waveColors = {W1:'#3fb950', W2:'#f85149', W3:'#58a6ff', W4:'#d29922', W5:'#bc8cff'};
+
+    (d.waves||[]).forEach(w => {
+      if (!w.start_date) return;
+      const color = waveColors[w.id] || '#8b949e';
+      // Start point label
+      waveMarkPoints.push({
+        coord: [w.start_date, w.start_price],
+        symbol: 'circle', symbolSize: 10,
+        itemStyle: {color: color},
+        label: {show: true, formatter: w.id+'起\n'+w.start_price, fontSize: 10, fontWeight: 'bold', color: color, position: 'bottom', distance: 8},
+      });
+      // End point label (only if completed)
+      if (w.end_date && w.end_price) {
+        waveMarkPoints.push({
+          coord: [w.end_date, w.end_price],
+          symbol: 'diamond', symbolSize: 12,
+          itemStyle: {color: color},
+          label: {show: true, formatter: w.id+'终\n'+w.end_price, fontSize: 10, fontWeight: 'bold', color: color, position: 'top', distance: 8},
+        });
+        // Wave segment line: use two separate xAxis+yAxis points (coords not supported on category axis)
+        waveMarkLines.push([
+          {xAxis: w.start_date, yAxis: w.start_price},
+          {xAxis: w.end_date, yAxis: w.end_price},
+        ]);
+        // Wave area shading
+        waveMarkAreas.push([
+          {xAxis: w.start_date, yAxis: w.start_price, itemStyle: {color: color, opacity: 0.06}},
+          {xAxis: w.end_date, yAxis: w.end_price},
+        ]);
+      }
+      // W3 sub-waves markers
+      if (w.sub_waves && w.sub_waves.waves && w.id === 'W3') {
+        const swDates = {'I':'2025-05-15','II':'2025-06-10','III':'2025-11-20','IV':'2026-01-15','V':'2026-05-14'};
+        w.sub_waves.waves.forEach((sw, idx) => {
+          const swDate = swDates[sw.id];
+          if (!swDate) return;
+          waveMarkPoints.push({
+            coord: [swDate, sw.target],
+            symbol: 'pin', symbolSize: 20,
+            itemStyle: {color: '#58a6ff', opacity: 0.7},
+            label: {show: true, formatter: 'W3-'+sw.id+'\n'+sw.target, fontSize: 8, color: '#79c0ff', position: idx%2===0?'top':'bottom', distance: 6},
+          });
+        });
+      }
+    });
+
+    // Support/resistance lines from W4
+    const supportLines = waves[3]?.sub_waves?.support_levels || {};
+    Object.entries(supportLines).forEach(([name, price]) => {
+      waveMarkLines.push({
+        yAxis: price,
+        lineStyle: {color: name.includes('38.2') ? '#d29922' : name.includes('50') ? '#f85149' : name.includes('61.8') ? '#f85149' : '#58a6ff', type: 'dashed', width: 1},
+        label: {formatter: `${name} ${price}`, fontSize: 9, color: '#8b949e'},
+      });
+    });
+
+    chart.setOption({
+      tooltip: {trigger: 'axis', axisPointer: {type: 'cross'}},
+      legend: {data: ['日K', '收盘价', '浪型'], top: 0, textStyle: {color: '#8b949e'}},
+      grid: [{left: '8%', right: '5%', top: '10%', bottom: '15%'}],
+      xAxis: [{type: 'category', data: dates, axisLabel: {color: '#8b949e', fontSize: 10}, splitLine: {show: false}}],
+      yAxis: [{scale: true, axisLabel: {color: '#8b949e'}, splitLine: {lineStyle: {color: '#30363d'}}}],
+      dataZoom: [{type: 'inside', start: 0, end: 100}, {type: 'slider', bottom: 0, textStyle: {color: '#8b949e'}}],
+      series: [
+        {
+          name: '日K',
+          type: 'candlestick',
+          data: ohlc,
+          itemStyle: {color: '#3fb950', color0: '#f85149', borderColor: '#3fb950', borderColor0: '#f85149'},
+          markPoint: {data: waveMarkPoints, animation: false},
+          markLine: {silent: true, symbol: ['none','arrow'], data: waveMarkLines, animation: false},
+          markArea: {silent: true, data: waveMarkAreas, animation: false},
+        },
+        {
+          name: '收盘价',
+          type: 'line',
+          data: closes,
+          smooth: true,
+          lineStyle: {width: 1, color: '#58a6ff', opacity: 0.5},
+          symbol: 'none',
+        },
+      ],
+    });
+  }
+
+  // Prediction section
+  if (ca && ca.prediction) {
+    const p = ca.prediction;
+    document.getElementById('wavePrediction').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      <div style="padding:12px;background:rgba(63,185,80,0.08);border-radius:6px;border:1px solid rgba(63,185,80,0.2)">
+        <div style="font-size:12px;color:var(--text2)">短期（1周）</div>
+        <div style="font-size:14px;margin-top:4px">${p.short_term_1w}</div>
+      </div>
+      <div style="padding:12px;background:rgba(210,153,34,0.08);border-radius:6px;border:1px solid rgba(210,153,34,0.2)">
+        <div style="font-size:12px;color:var(--text2)">中期（1月）</div>
+        <div style="font-size:14px;margin-top:4px">${p.medium_term_1m}</div>
+      </div>
+      <div style="padding:12px;background:rgba(88,166,255,0.08);border-radius:6px;border:1px solid rgba(88,166,255,0.2)">
+        <div style="font-size:12px;color:var(--text2)">第五浪概率</div>
+        <div style="font-size:20px;font-weight:700;color:var(--accent);margin-top:4px">${p.w5_probability}</div>
+      </div>
+      <div style="padding:12px;background:rgba(188,140,255,0.08);border-radius:6px;border:1px solid rgba(188,140,255,0.2)">
+        <div style="font-size:12px;color:var(--text2)">第五浪目标</div>
+        <div style="font-size:14px;margin-top:4px">${p.w5_target}</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--text2)">
+      <strong>关键洞察：</strong>
+      <ul style="margin-top:4px;padding-left:16px">${(d.key_insights||[]).slice(0,4).map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  // 创业板分析
+  const cyb = d.cyb_analysis;
+  const sh = d.sh_analysis;
+  let extraHtml = '';
+  
+  // 上证技术点位
+  if (sh) {
+    const shColor = sh.current > sh.resistance ? 'var(--green)' : sh.current > 4070 ? 'var(--yellow)' : 'var(--red)';
+    extraHtml += `
+    <div style="margin-top:16px;padding:12px;background:rgba(88,166,255,0.08);border-radius:6px;border:1px solid rgba(88,166,255,0.2)">
+      <div style="font-size:14px;font-weight:600;color:var(--accent)">📊 上证指数 · wu2198技术步伐</div>
+      <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">当前</div>
+          <div style="font-size:18px;font-weight:700;color:${shColor}">${sh.current?.toFixed(0)}</div>
+        </div>
+        <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">转跌点</div>
+          <div style="font-size:18px;font-weight:700">${sh.turn_down_from}</div>
+        </div>
+        <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">反压</div>
+          <div style="font-size:18px;font-weight:700;color:var(--yellow)">${sh.resistance}</div>
+        </div>
+        <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">破4070看</div>
+          <div style="font-size:18px;font-weight:700;color:var(--red)">${sh.break_4070_target}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:13px;color:${shColor}">${sh.zone}</div>
+      <div style="margin-top:4px;font-size:12px;color:var(--text2)">📌 ${sh.status}</div>
+    </div>`;
+  }
+  
+  // 创业板分析
+  if (cyb) {
+    const cybColor = cyb.above_short ? 'var(--green)' : cyb.above_medium ? 'var(--yellow)' : 'var(--red)';
+    extraHtml += `
+    <div style="margin-top:12px;padding:12px;background:rgba(188,140,255,0.08);border-radius:6px;border:1px solid rgba(188,140,255,0.2)">
+      <div style="font-size:14px;font-weight:600;color:var(--purple)">📈 创业板指数 · wu2198技术转点</div>
+      <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">当前</div>
+          <div style="font-size:18px;font-weight:700;color:${cybColor}">${cyb.current?.toFixed(0)}</div>
+        </div>
+        <div style="flex:1;min-width:120px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">短线转点</div>
+          <div style="font-size:18px;font-weight:700">${cyb.short_pivot} ${cyb.above_short?'✅':'🔴破'}${cyb.m_head_risk && !cyb.above_short?' ⚠️M头':''}</div>
+        </div>
+        <div style="flex:1;min-width:120px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="font-size:11px;color:var(--text2)">中线转点</div>
+          <div style="font-size:18px;font-weight:700">${cyb.medium_pivot} ${cyb.above_medium?'✅':'🔴破'}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:13px;color:${cybColor}">${cyb.zone}</div>
+      <div style="margin-top:4px;font-size:12px;color:var(--text2)">💡 ${cyb.strategy}</div>
+      <div style="margin-top:4px;font-size:12px;color:var(--yellow)">📌 ${cyb.note}</div>
+    </div>`;
+  }
+  
+  if (extraHtml) {
+    document.getElementById('wavePrediction').innerHTML += extraHtml;
+  }
+}
+
+async function loadChanlun(idx='sh') {
+  // Toggle button style
+  document.getElementById('btnChanlunSH'...[truncated]
+
+async function loadChanlun(idx='sh') {
+  // Toggle button style
+  document.getElementById('btnChanlunSH').style.background = idx==='sh'?'var(--accent)':'var(--border)';
+  document.getElementById('btnChanlunCYB').style.background = idx==='cyb'?'var(--accent)':'var(--border)';
+  
+  const d = await fetchAPI('/api/chanlun?index=' + (idx==='cyb'?'sz':'sh'));
+  if (d.error) { document.getElementById('chanlunSummary').innerHTML = '❌ '+d.error; return; }
+  
+  const s = d.summary;
+  const signal = d.buy_sell_points;
+  const patterns = d.patterns || [];
+  
+  // Summary
+  const posColor = s.position_in_zhongshu.includes('偏多')?'var(--green)':s.position_in_zhongshu.includes('偏空')?'var(--red)':'var(--yellow)';
+  let html = `<div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">当前价</div>
+      <div style="font-size:20px;font-weight:700">${s.current_price?.toFixed(0)}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">方向</div>
+      <div style="font-size:16px;font-weight:600;color:${s.current_direction==='up'?'var(--green)':'var(--red)'}">${s.current_direction==='up'?'↑向上笔':'↓向下笔'}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">MACD</div>
+      <div style="font-size:14px;font-weight:600">${s.macd_status}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">中枢位置</div>
+      <div style="font-size:13px;color:${posColor}">${s.position_in_zhongshu}</div>
+    </div>
+  </div>`;
+  document.getElementById('chanlunSummary').innerHTML = html;
+  
+  // K-line chart with fractals + zhongshu
+  const csvIdx = idx==='cyb'?'sz':'sh';
+  const waveD = await fetchAPI('/api/wave-analysis');
+  const klData = idx==='cyb' ? (waveD.cyb_kline||[]) : (waveD.kline||[]);
+  
+  if (klData.length > 0) {
+    const chart = echarts.init(document.getElementById('chanlunChart'));
+    const dates = klData.map(k=>k.date);
+    const ohlc = klData.map(k=>[k.open,k.close,k.low,k.high]);
+    
+    // Mark fractals
+    const markPoints = [];
+    (d.recent_fractals||[]).forEach(f => {
+      const dateIdx = dates.indexOf(f.date);
+      if (dateIdx >= 0) {
+        markPoints.push({
+          coord: [f.date, f.price],
+          symbol: f.kind==='top'?'triangle':'triangle',
+          symbolRotate: f.kind==='top'?180:0,
+          symbolSize: 12,
+          itemStyle: {color: f.kind==='top'?'var(--red)':'var(--green)'},
+          label: {show: true, formatter: f.kind==='top'?'顶':'底', fontSize: 9, color: f.kind==='top'?'#f85149':'#3fb950', position: f.kind==='top'?'top':'bottom'},
+        });
+      }
+    });
+    
+    // Mark zhongshu as bands
+    const markAreas = [];
+    (d.zhongshu||[]).forEach(z => {
+      const startIdx = Math.max(0, dates.indexOf(d.recent_bi?.[0]?.start_date||'') || 0);
+      markAreas.push([
+        {xAxis: dates[startIdx]||dates[0], yAxis: z.zd},
+        {xAxis: dates[dates.length-1], yAxis: z.zg},
+      ]);
+    });
+    
+    chart.setOption({
+      tooltip: {trigger:'axis',axisPointer:{type:'cross'}},
+      grid: [{left:'8%',right:'5%',top:'8%',bottom:'15%'}],
+      xAxis: [{type:'category',data:dates,axisLabel:{color:'#8b949e',fontSize:10}}],
+      yAxis: [{scale:true,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#30363d'}}}],
+      dataZoom: [{type:'inside'},{type:'slider',bottom:0,textStyle:{color:'#8b949e'}}],
+      series: [{
+        name:'日K', type:'candlestick', data:ohlc,
+        itemStyle:{color:'#3fb950',color0:'#f85149',borderColor:'#3fb950',borderColor0:'#f85149'},
+        markPoint: {data: markPoints, animation: false},
+        markArea: {silent:true, data: markAreas, itemStyle:{color:'rgba(88,166,255,0.08)',borderColor:'rgba(88,166,255,0.3)',borderWidth:1}},
+      }],
+    });
+  }
+  
+  // Detail: buy/sell signals + patterns
+  let detail = '';
+  if (signal.length > 0) {
+    detail += '<div style="margin-bottom:8px"><strong>🎯 买卖信号</strong></div>';
+    signal.forEach(p => {
+      const isBuy = p.kind.includes('buy');
+      const color = isBuy ? 'var(--green)' : 'var(--red)';
+      const icon = isBuy ? '🟢' : '🔴';
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(0,0,0,0.2);border-radius:4px;border-left:3px solid ${color}">
+        ${icon} <strong>${p.kind}</strong> @ ${p.date} ${p.price?.toFixed(0)} 
+        <span style="color:var(--text2);font-size:12px">置信${(p.confidence*100).toFixed(0)}%</span>
+        <div style="font-size:12px;color:${color}">${p.description}</div>
+      </div>`;
+    });
+  }
+  if (patterns.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>📐 形态识别</strong></div>';
+    patterns.forEach(p => {
+      const color = p.bearish ? 'var(--red)' : 'var(--green)';
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(0,0,0,0.2);border-radius:4px;border-left:3px solid ${color}">
+        ${p.bearish?'⚠️':'✅'} <strong>${p.name}</strong> → 目标 <strong>${p.target}</strong>
+      </div>`;
+    });
+  }
+  
+  // Recent bi (笔)
+  if (d.recent_bi && d.recent_bi.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>📏 近期笔</strong></div>';
+    d.recent_bi.slice(-5).forEach(b => {
+      const color = b.direction==='up'?'var(--green)':'var(--red)';
+      const arrow = b.direction==='up'?'↑':'↓';
+      detail += `<span style="display:inline-block;padding:3px 8px;margin:2px;background:rgba(0,0,0,0.2);border-radius:3px;font-size:12px;color:${color}">
+        ${arrow} ${b.start_date?.slice(5)}→${b.end_date?.slice(5)} ${b.start_price?.toFixed(0)}→${b.end_price?.toFixed(0)}</span>`;
+    });
+  }
+  
+  // Zhongshu
+  if (d.zhongshu && d.zhongshu.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>🔲 中枢</strong></div>';
+    d.zhongshu.forEach(z => {
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(88,166,255,0.08);border-radius:4px;font-size:13px">
+        ZG=${z.zg?.toFixed(0)} ZD=${z.zd?.toFixed(0)} | GG=${z.high?.toFixed(0)} DD=${z.low?.toFixed(0)} | ${z.bi_count}笔</div>`;
+    });
+  }
+  
+  document.getElementById('chanlunDetail').innerHTML = detail || '<div style="color:var(--text2)">暂无信号</div>';
+}
+
+async function loadChanlun(idx='sh') {
+  // Toggle button style
+  document.getElementById('btnChanlunSH').style.background = idx==='sh'?'var(--accent)':'var(--border)';
+  document.getElementById('btnChanlunCYB').style.background = idx==='cyb'?'var(--accent)':'var(--border)';
+  
+  const d = await fetchAPI('/api/chanlun?index=' + (idx==='cyb'?'sz':'sh'));
+  if (d.error) { document.getElementById('chanlunSummary').innerHTML = '❌ '+d.error; return; }
+  
+  const s = d.summary;
+  const signal = d.buy_sell_points;
+  const patterns = d.patterns || [];
+  
+  // Summary
+  const posColor = s.position_in_zhongshu.includes('偏多')?'var(--green)':s.position_in_zhongshu.includes('偏空')?'var(--red)':'var(--yellow)';
+  let html = `<div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">当前价</div>
+      <div style="font-size:20px;font-weight:700">${s.current_price?.toFixed(0)}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">方向</div>
+      <div style="font-size:16px;font-weight:600;color:${s.current_direction==='up'?'var(--green)':'var(--red)'}">${s.current_direction==='up'?'↑向上笔':'↓向下笔'}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">MACD</div>
+      <div style="font-size:14px;font-weight:600">${s.macd_status}</div>
+    </div>
+    <div style="flex:1;min-width:100px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;text-align:center">
+      <div style="font-size:11px;color:var(--text2)">中枢位置</div>
+      <div style="font-size:13px;color:${posColor}">${s.position_in_zhongshu}</div>
+    </div>
+  </div>`;
+  document.getElementById('chanlunSummary').innerHTML = html;
+  
+  // K-line chart with fractals + zhongshu
+  const csvIdx = idx==='cyb'?'sz':'sh';
+  const waveD = await fetchAPI('/api/wave-analysis');
+  const klData = idx==='cyb' ? (waveD.cyb_kline||[]) : (waveD.kline||[]);
+  
+  if (klData.length > 0) {
+    const chart = echarts.init(document.getElementById('chanlunChart'));
+    const dates = klData.map(k=>k.date);
+    const ohlc = klData.map(k=>[k.open,k.close,k.low,k.high]);
+    
+    // Mark fractals
+    const markPoints = [];
+    (d.recent_fractals||[]).forEach(f => {
+      const dateIdx = dates.indexOf(f.date);
+      if (dateIdx >= 0) {
+        markPoints.push({
+          coord: [f.date, f.price],
+          symbol: f.kind==='top'?'triangle':'triangle',
+          symbolRotate: f.kind==='top'?180:0,
+          symbolSize: 12,
+          itemStyle: {color: f.kind==='top'?'var(--red)':'var(--green)'},
+          label: {show: true, formatter: f.kind==='top'?'顶':'底', fontSize: 9, color: f.kind==='top'?'#f85149':'#3fb950', position: f.kind==='top'?'top':'bottom'},
+        });
+      }
+    });
+    
+    // Mark zhongshu as bands
+    const markAreas = [];
+    (d.zhongshu||[]).forEach(z => {
+      const startIdx = Math.max(0, dates.indexOf(d.recent_bi?.[0]?.start_date||'') || 0);
+      markAreas.push([
+        {xAxis: dates[startIdx]||dates[0], yAxis: z.zd},
+        {xAxis: dates[dates.length-1], yAxis: z.zg},
+      ]);
+    });
+    
+    chart.setOption({
+      tooltip: {trigger:'axis',axisPointer:{type:'cross'}},
+      grid: [{left:'8%',right:'5%',top:'8%',bottom:'15%'}],
+      xAxis: [{type:'category',data:dates,axisLabel:{color:'#8b949e',fontSize:10}}],
+      yAxis: [{scale:true,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#30363d'}}}],
+      dataZoom: [{type:'inside'},{type:'slider',bottom:0,textStyle:{color:'#8b949e'}}],
+      series: [{
+        name:'日K', type:'candlestick', data:ohlc,
+        itemStyle:{color:'#3fb950',color0:'#f85149',borderColor:'#3fb950',borderColor0:'#f85149'},
+        markPoint: {data: markPoints, animation: false},
+        markArea: {silent:true, data: markAreas, itemStyle:{color:'rgba(88,166,255,0.08)',borderColor:'rgba(88,166,255,0.3)',borderWidth:1}},
+      }],
+    });
+  }
+  
+  // Detail: buy/sell signals + patterns
+  let detail = '';
+  if (signal.length > 0) {
+    detail += '<div style="margin-bottom:8px"><strong>🎯 买卖信号</strong></div>';
+    signal.forEach(p => {
+      const isBuy = p.kind.includes('buy');
+      const color = isBuy ? 'var(--green)' : 'var(--red)';
+      const icon = isBuy ? '🟢' : '🔴';
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(0,0,0,0.2);border-radius:4px;border-left:3px solid ${color}">
+        ${icon} <strong>${p.kind}</strong> @ ${p.date} ${p.price?.toFixed(0)} 
+        <span style="color:var(--text2);font-size:12px">置信${(p.confidence*100).toFixed(0)}%</span>
+        <div style="font-size:12px;color:${color}">${p.description}</div>
+      </div>`;
+    });
+  }
+  if (patterns.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>📐 形态识别</strong></div>';
+    patterns.forEach(p => {
+      const color = p.bearish ? 'var(--red)' : 'var(--green)';
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(0,0,0,0.2);border-radius:4px;border-left:3px solid ${color}">
+        ${p.bearish?'⚠️':'✅'} <strong>${p.name}</strong> → 目标 <strong>${p.target}</strong>
+      </div>`;
+    });
+  }
+  
+  // Recent bi (笔)
+  if (d.recent_bi && d.recent_bi.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>📏 近期笔</strong></div>';
+    d.recent_bi.slice(-5).forEach(b => {
+      const color = b.direction==='up'?'var(--green)':'var(--red)';
+      const arrow = b.direction==='up'?'↑':'↓';
+      detail += `<span style="display:inline-block;padding:3px 8px;margin:2px;background:rgba(0,0,0,0.2);border-radius:3px;font-size:12px;color:${color}">
+        ${arrow} ${b.start_date?.slice(5)}→${b.end_date?.slice(5)} ${b.start_price?.toFixed(0)}→${b.end_price?.toFixed(0)}</span>`;
+    });
+  }
+  
+  // Zhongshu
+  if (d.zhongshu && d.zhongshu.length > 0) {
+    detail += '<div style="margin:8px 0"><strong>🔲 中枢</strong></div>';
+    d.zhongshu.forEach(z => {
+      detail += `<div style="padding:6px;margin:4px 0;background:rgba(88,166,255,0.08);border-radius:4px;font-size:13px">
+        ZG=${z.zg?.toFixed(0)} ZD=${z.zd?.toFixed(0)} | GG=${z.high?.toFixed(0)} DD=${z.low?.toFixed(0)} | ${z.bi_count}笔</div>`;
+    });
+  }
+  
+  document.getElementById('chanlunDetail').innerHTML = detail || '<div style="color:var(--text2)">暂无信号</div>';
+}
+
+async function loadIndicators(idx='sh') {
+  document.getElementById('btnIndSH').style.background = idx==='sh'?'var(--accent)':'var(--border)';
+  document.getElementById('btnIndCYB').style.background = idx==='cyb'?'var(--accent)':'var(--border)';
+  
+  const d = await fetchAPI('/api/indicators?index=' + (idx==='cyb'?'sz':'sh'));
+  if (d.error) { document.getElementById('indicatorsPanel').innerHTML = '❌ '+d.error; return; }
+  
+  const indRows = [
+    {name:'RSI', val:d.rsi?.value, unit:'', zone:d.rsi?.zone, div:d.rsi?.divergence},
+    {name:'布林带', val:'', unit:'', zone:d.boll?.position, div:d.boll?.squeeze},
+    {name:'均线', val:'', unit:'', zone:d.ma?.arrangement+' | '+d.ma?.cross, div:d.ma?.life_line},
+    {name:'KDJ', val:`K:${d.kdj?.k} D:${d.kdj?.d} J:${d.kdj?.j}`, unit:'', zone:d.kdj?.zone, div:(d.kdj?.cross||'')+(d.kdj?.j_signal?' | '+d.kdj?.j_signal:'')},
+    {name:'量价', val:d.volume?.vol_vs_avg20+'%vs20日均', unit:'', zone:'', div:d.volume?.divergence||'正常'},
+    {name:'多周期', val:'', unit:'', zone:d.multi_timeframe?.resonance, div:`日${d.multi_timeframe?.daily?.trend} 周${d.multi_timeframe?.weekly?.trend} 月${d.multi_timeframe?.monthly?.trend}`},
+  ];
+  
+  let html = '<table><thead><tr><th>指标</th><th>值</th><th>状态</th><th>信号</th></tr></thead><tbody>';
+  indRows.forEach(r => {
+    const color = (r.zone||'').includes('多')||r.zone.includes('金叉')?'var(--green)':(r.zone.includes('空')||r.zone.includes('超买')||r.zone.includes('死叉')?'var(--red)':'var(--text2)');
+    html += `<tr><td><strong>${r.name}</strong></td><td style="font-size:12px">${r.val}</td><td style="color:${color};font-size:12px">${r.zone}</td><td style="font-size:11px;color:var(--yellow)">${r.div||''}</td></tr>`;
+  });
+  
+  // 缺口
+  if (d.gaps && d.gaps.length > 0) {
+    html += '<tr><td colspan="4" style="padding-top:8px"><strong>缺口：</strong>';
+    d.gaps.forEach(g => {
+      const icon = g.type==='向上缺口'?'🟢':'🔴';
+      const status = g.filled?'已回补':'⚠️未回补';
+      html += `<span style="margin:2px;display:inline-block;padding:2px 6px;background:rgba(0,0,0,0.2);border-radius:3px;font-size:11px">${icon}${g.date} ${g.type} ${g.bottom}-${g.top} ${status}</span>`;
+    });
+    html += '</td></tr>';
+  }
+  
+  // 均线值
+  if (d.ma?.values) {
+    html += '<tr><td colspan="4" style="font-size:11px;color:var(--text2)">';
+    const mv = d.ma.values;
+    html += `MA5:${mv.ma5||'-'} MA10:${mv.ma10||'-'} MA20:${mv.ma20||'-'} MA60:${mv.ma60||'-'} MA120:${mv.ma120||'-'}`;
+    html += '</td></tr>';
+  }
+  
+  html += '</tbody></table>';
+  document.getElementById('indicatorsPanel').innerHTML = html;
+  
+  // 综合评分面板
+  const cs = d.composite_score;
+  if (cs) {
+    const scoreColor = cs.score>1.5?'var(--green)':cs.score<-1.5?'var(--red)':'var(--yellow)';
+    const barWidth = Math.min(100, Math.abs(cs.score)*15);
+    const barDir = cs.score >= 0;
+    
+    let scoreHtml = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:42px;font-weight:800;color:${scoreColor}">${cs.score>0?'+':''}${cs.score}</div>
+      <div style="font-size:16px;color:${scoreColor};margin-top:4px">${cs.verdict}</div>
+      <div style="margin-top:8px;height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${barWidth}%;background:${scoreColor};border-radius:4px;float:${barDir?'left':'right'}"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px">
+        <span>🐻 看空</span><span>😐 中性</span><span>看多 🐂</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:12px">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <span style="padding:4px 8px;background:rgba(63,185,80,0.15);border-radius:4px;color:var(--green)">多方 ${cs.bull}票</span>
+        <span style="padding:4px 8px;background:rgba(248,81,73,0.15);border-radius:4px;color:var(--red)">空方 ${cs.bear}票</span>
+      </div>`;
+    
+    cs.votes.forEach(v => {
+      const icon = v[1]>0?'🟢':v[1]<0?'🔴':'⚪';
+      const color = v[1]>0?'var(--green)':v[1]<0?'var(--red)':'var(--text2)';
+      scoreHtml += `<div style="padding:4px 0;border-bottom:1px solid rgba(48,54,61,0.3)">${icon} <span style="color:${color}">${v[0]}</span> <span style="float:right;color:${color}">${v[1]>0?'+':''}${v[1].toFixed(1)}</span></div>`;
+    });
+    
+    scoreHtml += '</div>';
+    document.getElementById('scorePanel').innerHTML = scoreHtml;
+  }
+}
+
+async function loadStockAnalysis() {
+  const input = document.getElementById('stockSearchInput').value.trim();
+  if (!input) { d...[truncated]
+
+async function loadStockAnalysis() {
+  const input = document.getElementById('stockSearchInput').value.trim();
+  if (!input) { document.getElementById('stockResult').innerHTML = '⚠️ 请输入股票名称或代码'; return; }
+  
+  const btn = document.getElementById('btnStockSearch');
+  btn.disabled = true; btn.textContent = '分析中...';
+  document.getElementById('stockResult').innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2)">⏳ 正在获取数据并计算技术指标...</div>';
+  
+  // 判断是代码还是名称
+  const isCode = /^\d{6}$/.test(input);
+  const url = '/api/stock-analysis?' + (isCode ? 'code=' + input : 'name=' + encodeURIComponent(input));
+  
+  const d = await fetchAPI(url);
+  btn.disabled = false; btn.textContent = '分析';
+  
+  if (d.error) { document.getElementById('stockResult').innerHTML = '❌ ' + d.error; return; }
+  
+  const cs = d.composite_score;
+  const scoreColor = cs.score>1.5?'var(--green)':cs.score<-1.5?'var(--red)':'var(--yellow)';
+  const poolBadge = d.in_wu2198_pool ? '<span style="padding:3px 8px;background:rgba(63,185,80,0.2);border-radius:4px;color:var(--green);font-size:12px">✅ wu2198池内</span>' : '';
+  
+  let html = `
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+    <div style="flex:2;min-width:200px">
+      <div style="font-size:24px;font-weight:700">${d.name} (${d.code}) ${poolBadge}</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:4px">${d.current_date} 收盘 ${d.current_price}</div>
+      <div style="margin-top:6px">
+        <span style="padding:3px 8px;border-radius:4px;font-size:12px;${d.pct_today>0?'background:rgba(63,185,80,0.15);color:var(--green)':'background:rgba(248,81,73,0.15);color:var(--red)'}">
+          今日${d.pct_today>0?'↑':'↓'}${d.pct_today}%</span>
+        <span style="padding:3px 8px;border-radius:4px;font-size:12px;${d.pct_5d>0?'background:rgba(63,185,80,0.15);color:var(--green)':'background:rgba(248,81,73,0.15);color:var(--red)'}">
+          5日${d.pct_5d>0?'↑':'↓'}${d.pct_5d}%</span>
+        ${d.pct_20d!=null?`<span style="padding:3px 8px;border-radius:4px;font-size:12px;${d.pct_20d>0?'background:rgba(63,185,80,0.15);color:var(--green)':'background:rgba(248,81,73,0.15);color:var(--red)'}">
+          20日${d.pct_20d>0?'↑':'↓'}${d.pct_20d}%</span>`:''}
+      </div>
+      ${d.pool_info?`<div style="margin-top:6px;font-size:12px;color:var(--text2)">板块:${d.pool_info.sector||'-'} | 得分:${d.pool_info.score||0} | 类别:${d.pool_info.bucket||'-'}</div>`:''}
+    </div>
+    <div style="flex:1;min-width:150px;text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:8px">
+      <div style="font-size:11px;color:var(--text2)">综合评分</div>
+      <div style="font-size:36px;font-weight:800;color:${scoreColor}">${cs.score>0?'+':''}${cs.score}</div>
+      <div style="font-size:14px;color:${scoreColor}">${cs.verdict}</div>
+      <div style="margin-top:4px;font-size:11px;color:var(--text2)">多${cs.bull}票 / 空${cs.bear}票</div>
+    </div>
+  </div>`;
+  
+  // 指标表格
+  html += '<table style="width:100%"><thead><tr><th>指标</th><th>值</th><th>状态</th><th>信号</th></tr></thead><tbody>';
+  const rows = [
+    {n:'RSI',v:d.rsi?.value,z:d.rsi?.zone,s:d.rsi?.divergence},
+    {n:'布林',v:'',z:d.boll?.position,s:d.boll?.squeeze},
+    {n:'均线',v:'',z:d.ma?.arrangement+'|'+d.ma?.cross,s:d.ma?.life_line},
+    {n:'KDJ',v:`K:${d.kdj?.k} D:${d.kdj?.d} J:${d.kdj?.j}`,z:d.kdj?.zone,s:d.kdj?.cross+(d.kdj?.j_signal?' '+d.kdj?.j_signal:'')},
+    {n:'量价',v:d.volume?.vol_vs_avg20+'%',z:'',s:d.volume?.divergence||'正常'},
+    {n:'多周期',v:'',z:d.multi_timeframe?.resonance,s:`日${d.multi_timeframe?.daily?.trend}周${d.multi_timeframe?.weekly?.trend}月${d.multi_timeframe?.monthly?.trend}`},
+  ];
+  rows.forEach(r => {
+    const c = (r.z||'').match(/多|金叉|偏多/)?'var(--green)':(r.z.match(/空|超买|死叉/)?'var(--red)':'var(--text2)');
+    html += `<tr><td><strong>${r.n}</strong></td><td style="font-size:12px">${r.v||''}</td><td style="color:${c};font-size:12px">${r.z||''}</td><td style="font-size:11px;color:var(--yellow)">${r.s||''}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  
+  // 缠论信号
+  const sigs = d.chanlun_signals||[];
+  if (sigs.length) {
+    html += '<div style="margin-top:12px"><strong>🎯 缠论买卖点</strong></div>';
+    sigs.forEach(s => {
+      const ic = s.kind.includes('buy')?'🟢':'🔴';
+      html += `<div style="padding:4px;margin:2px 0;background:rgba(0,0,0,0.2);border-radius:4px;font-size:12px">${ic} ${s.kind} ${s.price?.toFixed(0)}→${s.description}</div>`;
+    });
+  }
+  
+  // 形态
+  const pts = d.chanlun_patterns||[];
+  if (pts.length) {
+    html += '<div style="margin-top:8px"><strong>📐 形态</strong></div>';
+    pts.forEach(p => {
+      html += `<div style="font-size:12px">${p.bearish?'⚠️':'✅'} ${p.name} → 目标${p.target}</div>`;
+    });
+  }
+  
+  // 缺口
+  if (d.gaps?.length) {
+    html += '<div style="margin-top:8px;font-size:12px"><strong>缺口：</strong>';
+    d.gaps.forEach(g => html += `<span style="margin:2px;padding:2px 6px;background:rgba(0,0,0,0.2);border-radius:3px">${g.type==='向上缺口'?'🟢':'🔴'}${g.date} ${g.bottom}-${g.top} ${g.filled?'已回补':'⚠️未回补'}</span>`);
+    html += '</div>';
+  }
+  
+  // 投票明细 - 加入wu2198视角
+  const wu = d.wu_eval;
+  if (wu) {
+    html += '<div style="margin-top:16px;padding:12px;background:rgba(88,166,255,0.1);border:1px solid rgba(88,166,255,0.3);border-radius:8px">';
+    html += '<div style="font-size:15px;font-weight:700;color:var(--accent);margin-bottom:8px">🧭 wu2198视角评价</div>';
+    html += `<div style="font-size:13px;margin-bottom:6px">${wu.pool_status} | ${wu.direction_match}</div>`;
+    html += `<div style="font-size:18px;font-weight:700;margin-bottom:4px">wu2198评分: ${wu.wu_final_score>0?'+':''}${wu.wu_final_score}</div>`;
+    html += `<div style="font-size:14px;margin-bottom:6px">${wu.suggestion}</div>`;
+    html += `<div style="font-size:13px;color:var(--text2)">建议仓位: ${wu.position}</div>`;
+    html += `<div style="margin-top:8px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;font-size:12px;color:var(--text)">${wu.one_liner}</div>`;
+    html += '</div>';
+  }
+  
+  document.getElementById('stockResult').innerHTML = html;
+}
+
+// Enter键触发搜索
+document.getElementById('stockSearchInput')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadStockAnalysis();
+});
+
+// === 每日策略 ===
+async function loadDailyStrategy() {
+  const d = await fetchAPI('/api/daily-strategy');
+  if (d.error) { document.getElementById('dailyStrategy').innerHTML = '❌ '+d.error; return; }
+  
+  const s = d.strategy_summary || {};
+  const sh = d.sh_view || {};
+  const cyb = d.cyb_view || {};
+  
+  const scoreColor = sh.blended_score>=1?'var(--green)':sh.blended_score<=-1.5?'var(--red)':'var(--yellow)';
+  
+  let html = `
+  <div style="text-align:center;margin-bottom:12px">
+    <div style="font-size:12px;color:var(--text2)">${d.date} 策略</div>
+    <div style="font-size:18px;font-weight:700;margin-top:4px">${d.headline}</div>
+  </div>
+  <div style="text-align:center;margin-bottom:12px;padding:12px;background:rgba(0,0,0,0.2);border-radius:8px">
+    <div style="font-size:11px;color:var(--text2)">融合评分(wu2198×技术)</div>
+    <div style="font-size:32px;font-weight:800;color:${scoreColor}">${sh.blended_score>0?'+':''}${sh.blended_score}</div>
+    <div style="font-size:14px;color:${scoreColor}">${sh.verdict}</div>
+  </div>`;
+  
+  const items = [
+    ['📍 大盘方向', s['大盘方向']],
+    ['💰 仓位建议', s['仓位建议']],
+    ['⏱️ 操作节奏', s['操作节奏']],
+    ['🎯 重点方向', s['重点方向']],
+    ['🔮 关注个股', s['关注个股']],
+    ['⚠️ 风险提示', s['风险提示']],
+  ];
+  items.forEach(([k,v]) => {
+    html += `<div style="padding:6px 0;border-bottom:1px solid rgba(48,54,61,0.2)"><span style="color:var(--text2)">${k}</span><div style="font-size:13px;margin-top:2px">${v}</div></div>`;
+  });
+  
+  // 关键点位
+  if (d.key_levels) {
+    html += '<div style="margin-top:8px;font-size:11px;color:var(--text2)">';
+    const sh_l = d.key_levels['上证']||{};
+    const cyb_l = d.key_levels['创业板']||{};
+    if (sh_l.resistance) html += `上证: 反压${sh_l.resistance} 目标${sh_l.break_4070_target||'?'} | `;
+    if (cyb_l.short_term_pivot) html += `创业板: 短线${cyb_l.short_term_pivot} 中线${cyb_l.medium_term_pivot}`;
+    html += '</div>';
+  }
+  
+  // wu2198锚点
+  if (d.wu2198_anchors && d.wu2198_anchors.length) {
+    html += '<div style="margin-top:8px"><details><summary style="cursor:pointer;color:var(--accent);font-size:12px">📌 wu2198核心判断锚点</summary>';
+    d.wu2198_anchors.forEach(a => { html += `<div style="padding:2px 0;font-size:11px;color:var(--text2)">• ${a}</div>`; });
+    html += '</details></div>';
+  }
+  
+  document.getElementById('dailyStrategy').innerHTML = html;
+}
+
+loadDailyStrategy();
+
+// === 每日策略 ===
+async function loadDailyStrategy() {
+  const d = await fetchAPI('/api/daily-strategy');
+  if (d.error) { document.getElementById('dailyStrategy').innerHTML = '❌ '+d.error; return; }
+  
+  const s = d.strategy_summary || {};
+  const sh = d.sh_view || {};
+  const cyb = d.cyb_view || {};
+  
+  const scoreColor = sh.blended_score>=1?'var(--green)':sh.blended_score<=-1.5?'var(--red)':'var(--yellow)';
+  
+  let html = `
+  <div style="text-align:center;margin-bottom:12px">
+    <div style="font-size:12px;color:var(--text2)">${d.date} 策略</div>
+    <div style="font-size:18px;font-weight:700;margin-top:4px">${d.headline}</div>
+  </div>
+  <div style="text-align:center;margin-bottom:12px;padding:12px;background:rgba(0,0,0,0.2);border-radius:8px">
+    <div style="font-size:11px;color:var(--text2)">融合评分(wu2198×技术)</div>
+    <div style="font-size:32px;font-weight:800;color:${scoreColor}">${sh.blended_score>0?'+':''}${sh.blended_score}</div>
+    <div style="font-size:14px;color:${scoreColor}">${sh.verdict}</div>
+  </div>`;
+  
+  const items = [
+    ['📍 大盘方向', s['大盘方向']],
+    ['💰 仓位建议', s['仓位建议']],
+    ['⏱️ 操作节奏', s['操作节奏']],
+    ['🎯 重点方向', s['重点方向']],
+    ['🔮 关注个股', s['关注个股']],
+    ['⚠️ 风险提示', s['风险提示']],
+  ];
+  items.forEach(([k,v]) => {
+    html += `<div style="padding:6px 0;border-bottom:1px solid rgba(48,54,61,0.2)"><span style="color:var(--text2)">${k}</span><div style="font-size:13px;margin-top:2px">${v}</div></div>`;
+  });
+  
+  // 关键点位
+  if (d.key_levels) {
+    html += '<div style="margin-top:8px;font-size:11px;color:var(--text2)">';
+    const sh_l = d.key_levels['上证']||{};
+    const cyb_l = d.key_levels['创业板']||{};
+    if (sh_l.resistance) html += `上证: 反压${sh_l.resistance} 目标${sh_l.break_4070_target||'?'} | `;
+    if (cyb_l.short_term_pivot) html += `创业板: 短线${cyb_l.short_term_pivot} 中线${cyb_l.medium_term_pivot}`;
+    html += '</div>';
+  }
+  
+  // wu2198锚点
+  if (d.wu2198_anchors && d.wu2198_anchors.length) {
+    html += '<div style="margin-top:8px"><details><summary style="cursor:pointer;color:var(--accent);font-size:12px">📌 wu2198核心判断锚点</summary>';
+    d.wu2198_anchors.forEach(a => { html += `<div style="padding:2px 0;font-size:11px;color:var(--text2)">• ${a}</div>`; });
+    html += '</details></div>';
+  }
+  
+  document.getElementById('dailyStrategy').innerHTML = html;
+}
+
+loadDailyStrategy();
+
+// === 板块轮动热力图 (ECharts Treemap) ===
+async function loadSectorHeatmap() {
+  try {
+    const d = await fetchAPI('/api/sector-heatmap');
+    if (!d || !d.sectors || d.sectors.length === 0) {
+      document.getElementById('sectorHeatmap').innerHTML = '<div style="color:var(--text2);text-align:center;padding:80px">暂无板块数据</div>';
+      return;
+    }
+    const sectors = d.sectors;
+    const chart = echarts.init(document.getElementById('sectorHeatmap'));
+    const maxScore = Math.max(...sectors.map(s => s.avg_score || 0), 0.001);
+    const minScore = Math.min(...sectors.map(s => s.avg_score || 0), 0);
+
+    chart.setOption({
+      tooltip: {
+        formatter: function(p) {
+          const s = p.data;
+          return `<strong>${s.name}</strong><br/>股票数: ${s.stock_count || 0}<br/>平均得分: ${(s.avg_score || 0).toFixed(2)}<br/>${s.top_stocks ? '代表: ' + s.top_stocks.slice(0,5).join(', ') : ''}`;
+        }
+      },
+      series: [{
+        type: 'treemap',
+        roam: false,
+        width: '100%', height: '100%',
+        label: {
+          show: true,
+          formatter: function(p) {
+            return p.name + '\n' + (p.data.avg_score || 0).toFixed(1) + '分 · ' + (p.data.stock_count || 0) + '只';
+          },
+          fontSize: 12,
+          color: '#e6edf3',
+          textBorderColor: 'transparent',
+        },
+        itemStyle: {
+          borderColor: '#161b22',
+          borderWidth: 2,
+          borderRadius: 4,
+        },
+        data: sectors.map(s => {
+          const val = s.avg_score || 0;
+          const ratio = maxScore > minScore ? (val - minScore) / (maxScore - minScore) : 0.5;
+          const r = Math.round(88 + (248 - 88) * ratio);
+          const g = Math.round(166 + (81 - 166) * ratio);
+          const b = Math.round(255 + (73 - 255) * ratio);
+          return {
+            name: s.name,
+            value: s.stock_count || 1,
+            avg_score: s.avg_score || 0,
+            stock_count: s.stock_count || 0,
+            top_stocks: s.top_stocks || [],
+            itemStyle: {color: `rgb(${r},${g},${b})`},
+          };
+        }),
+      }]
+    });
+    window.addEventListener('resize', () => chart.resize());
+  } catch(e) {
+    document.getElementById('sectorHeatmap').innerHTML = '<div style="color:var(--red);text-align:center;padding:80px">❌ 加载失败: ' + e.message + '</div>';
+  }
+}
+
+// === 个股技术面扫描 ===
+async function loadStockScan() {
+  const btn = document.getElementById('btnStockScan');
+  const status = document.getElementById('stockScanStatus');
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  status.textContent = '⏳ 扫描中，请稍候...';
+  try {
+    const d = await fetchAPI('/api/stock-scan');
+    if (!d || !d.stocks || d.stocks.length === 0) {
+      document.getElementById('stockScanPanel').innerHTML = '<div style="color:var(--text2);text-align:center;padding:40px">暂无扫描数据</div>';
+      return;
+    }
+    const stocks = d.stocks.sort((a, b) => (b.score || 0) - (a.score || 0));
+    let html = '<table><thead><tr><th>股票</th><th>代码</th><th>板块</th><th>综合评分</th><th>判定</th><th>RSI</th><th>均线</th></tr></thead><tbody>';
+    stocks.forEach(s => {
+      const score = s.score || 0;
+      const isBull = s.verdict && (s.verdict.includes('多') || s.verdict.includes('涨') || s.verdict === 'bull');
+      const isBear = s.verdict && (s.verdict.includes('空') || s.verdict.includes('跌') || s.verdict === 'bear');
+      const scoreColor = score > 1 ? 'var(--green)' : score < -1 ? 'var(--red)' : 'var(--yellow)';
+      const verdictColor = isBull ? 'var(--green)' : isBear ? 'var(--red)' : 'var(--yellow)';
+      html += `<tr>
+        <td><strong>${s.name}</strong></td>
+        <td style="font-size:12px;color:var(--text2)">${s.code}</td>
+        <td>${s.sector || '-'}</td>
+        <td style="color:${scoreColor};font-weight:700">${score > 0 ? '+' : ''}${score.toFixed(1)}</td>
+        <td><span class="signal-badge ${isBull ? 'signal-bull' : isBear ? 'signal-bear' : 'signal-neutral'}" style="font-size:11px">${s.verdict || '-'}</span></td>
+        <td>${s.rsi != null ? s.rsi : '-'}</td>
+        <td style="font-size:12px">${s.ma_status || '-'}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('stockScanPanel').innerHTML = html;
+    status.textContent = `✅ 共 ${stocks.length} 只股票`;
+  } catch(e) {
+    document.getElementById('stockScanPanel').innerHTML = '<div style="color:var(--red);text-align:center;padding:40px">❌ 扫描失败: ' + e.message + '</div>';
+    status.textContent = '❌ 失败';
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+}
+
+// === 历史回测结果 ===
+async function loadBacktest() {
+  try {
+    const d = await fetchAPI('/api/backtest');
+    if (!d || !d.results || d.results.length === 0) {
+      document.getElementById('backtestPanel').innerHTML = '<div style="color:var(--text2);text-align:center;padding:40px">暂无回测数据</div>';
+      document.getElementById('backtestSummary').innerHTML = '';
+      return;
+    }
+    const results = d.results;
+    const summary = d.summary || {};
+    // Use backend summary if available, otherwise compute
+    const winRate = summary.win_rate_pct_5d != null ? summary.win_rate_pct_5d.toFixed(1) : '-';
+    const avg5d = summary.avg_pct_pct_5d != null ? summary.avg_pct_pct_5d.toFixed(2) : '-';
+    const avg10d = summary.avg_pct_pct_10d != null ? summary.avg_pct_pct_10d.toFixed(2) : '-';
+    const avg20d = summary.avg_pct_pct_20d != null ? summary.avg_pct_pct_20d.toFixed(2) : '-';
+    document.getElementById('backtestSummary').innerHTML = `
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div style="padding:10px 16px;background:rgba(0,0,0,0.2);border-radius:6px;text-align:center;flex:1;min-width:100px">
+          <div style="font-size:11px;color:var(--text2)">胜率 (5日)</div>
+          <div style="font-size:20px;font-weight:700;color:${parseFloat(winRate) > 50 ? 'var(--green)' : 'var(--red)'}">${winRate}%</div>
+        </div>
+        <div style="padding:10px 16px;background:rgba(0,0,0,0.2);border-radius:6px;text-align:center;flex:1;min-width:100px">
+          <div style="font-size:11px;color:var(--text2)">平均涨幅 5日</div>
+          <div style="font-size:20px;font-weight:700;color:${parseFloat(avg5d) > 0 ? 'var(--green)' : 'var(--red)'}">${avg5d}%</div>
+        </div>
+        <div style="padding:10px 16px;background:rgba(0,0,0,0.2);border-radius:6px;text-align:center;flex:1;min-width:100px">
+          <div style="font-size:11px;color:var(--text2)">平均涨幅 10日</div>
+          <div style="font-size:20px;font-weight:700;color:${parseFloat(avg10d) > 0 ? 'var(--green)' : 'var(--red)'}">${avg10d}%</div>
+        </div>
+        <div style="padding:10px 16px;background:rgba(0,0,0,0.2);border-radius:6px;text-align:center;flex:1;min-width:100px">
+          <div style="font-size:11px;color:var(--text2)">平均涨幅 20日</div>
+          <div style="font-size:20px;font-weight:700;color:${parseFloat(avg20d) > 0 ? 'var(--green)' : 'var(--red)'}">${avg20d}%</div>
+        </div>
+        <div style="padding:10px 16px;background:rgba(0,0,0,0.2);border-radius:6px;text-align:center;flex:1;min-width:100px">
+          <div style="font-size:11px;color:var(--text2)">回测样本</div>
+          <div style="font-size:20px;font-weight:700">${results.length}</div>
+        </div>
+      </div>`;
+    // 表格
+    let html = '<table><thead><tr><th>股票</th><th>提及日期</th><th>当时价</th><th>5日涨幅</th><th>10日涨幅</th><th>20日涨幅</th></tr></thead><tbody>';
+    results.forEach(r => {
+      const c5 = r.pct_5d != null ? r.pct_5d : null;
+      const c10 = r.pct_10d != null ? r.pct_10d : null;
+      const c20 = r.pct_20d != null ? r.pct_20d : null;
+      const color5 = c5 != null ? (c5 > 0 ? 'var(--green)' : c5 < 0 ? 'var(--red)' : 'var(--text2)') : 'var(--text2)';
+      const color10 = c10 != null ? (c10 > 0 ? 'var(--green)' : c10 < 0 ? 'var(--red)' : 'var(--text2)') : 'var(--text2)';
+      const color20 = c20 != null ? (c20 > 0 ? 'var(--green)' : c20 < 0 ? 'var(--red)' : 'var(--text2)') : 'var(--text2)';
+      html += `<tr>
+        <td><strong>${r.stock || '-'}</strong><br><span style="font-size:11px;color:var(--text2)">${r.code || ''}</span></td>
+        <td style="font-size:12px">${r.mention_date || '-'}</td>
+        <td style="font-weight:600">${r.price_then != null ? r.price_then.toFixed(2) : '-'}</td>
+        <td style="color:${color5};font-weight:600">${c5 != null ? (c5 > 0 ? '+' : '') + c5.toFixed(2) + '%' : '-'}</td>
+        <td style="color:${color10};font-weight:600">${c10 != null ? (c10 > 0 ? '+' : '') + c10.toFixed(2) + '%' : '-'}</td>
+        <td style="color:${color20};font-weight:600">${c20 != null ? (c20 > 0 ? '+' : '') + c20.toFixed(2) + '%' : '-'}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('backtestPanel').innerHTML = html;
+  } catch(e) {
+    document.getElementById('backtestPanel').innerHTML = '<div style="color:var(--red);text-align:center;padding:40px">❌ 加载失败: ' + e.message + '</div>';
+    document.getElementById('backtestSummary').innerHTML = '';
+  }
+}
+
+// 页面加载时自动加载热力图和回测，个股扫描需要手动点击
+document.addEventListener('DOMContentLoaded', function() {
+  loadSectorHeatmap();
+  loadBacktest();
+});
+</script>
+</body>
+</html>
