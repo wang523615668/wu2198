@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20 11:32:43",
+  "generated_at": "2026-07-20 15:32:44",
   "source": "v2/sync_watchlist minimal (post-TF recovery)",
   "leaders": [],
   "candidates": [],
@@ -12,18 +12,18 @@
     },
     {
       "name": "创新药",
-      "mentions": 17,
+      "mentions": 18,
       "priority": 100
+    },
+    {
+      "name": "白酒",
+      "mentions": 9,
+      "priority": 85
     },
     {
       "name": "CPO",
       "mentions": 9,
       "priority": 85
-    },
-    {
-      "name": "白酒",
-      "mentions": 8,
-      "priority": 80
     },
     {
       "name": "PCB",
@@ -37,6 +37,6 @@
     }
   ],
   "all_stocks": [],
-  "event_count": 182,
+  "event_count": 202,
   "notes": "Full SECTOR_LEADERS pipeline not restored; themes from keyword scan only."
 }
