@@ -1,13 +1,13 @@
 # wu2198 watchlist (minimal)
 
-- generated_at: 2026-07-21 15:32:28
-- event_count: 255
+- generated_at: 2026-07-22 15:32:21
+- event_count: 299
 - themes: 6
 
 ## Themes
-- 半导体: mentions=26
-- CPO: mentions=10
-- 创新药: mentions=9
-- 白酒: mentions=6
-- 固态电池: mentions=2
+- 半导体: mentions=24
+- CPO: mentions=11
+- 创新药: mentions=7
+- 白酒: mentions=5
+- 固态电池: mentions=3
 - PCB: mentions=1

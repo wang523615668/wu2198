@@ -8,3 +8,5 @@ cookie*
 *.sqlite
 __pycache__/
 *.pyc
+.env.*
+logs/
