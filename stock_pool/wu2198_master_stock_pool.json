@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T19:00:37+08:00",
+  "generated_at": "2026-07-23T08:01:39+08:00",
   "count": 45,
   "rows": [
     {
@@ -18,8 +18,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -40,8 +40,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -62,8 +62,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -84,8 +84,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -259,79 +259,66 @@
       ]
     },
     {
-      "stock_code": "600276",
-      "stock_name": "恒瑞医药",
-      "code": "600276",
-      "name": "恒瑞医药",
-      "sector": "创新药",
+      "stock_code": "002230",
+      "stock_name": "科大讯飞",
+      "code": "002230",
+      "name": "科大讯飞",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "603259",
-      "stock_name": "药明康德",
-      "code": "603259",
-      "name": "药明康德",
-      "sector": "创新药",
+      "stock_code": "688041",
+      "stock_name": "海光信息",
+      "code": "688041",
+      "name": "海光信息",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "688235",
-      "stock_name": "百济神州",
-      "code": "688235",
-      "name": "百济神州",
-      "sector": "创新药",
+      "stock_code": "688256",
+      "stock_name": "寒武纪",
+      "code": "688256",
+      "name": "寒武纪",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "600436",
-      "stock_name": "片仔癀",
-      "code": "600436",
-      "name": "片仔癀",
-      "sector": "创新药",
-      "themes": [
-        "创新药"
-      ],
-      "live_score": 66.0,
-      "live_bucket": "弹性个股",
-      "score": 66.0,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
-      "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
@@ -395,69 +382,6 @@
       ]
     },
     {
-      "stock_code": "002230",
-      "stock_name": "科大讯飞",
-      "code": "002230",
-      "name": "科大讯飞",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "688041",
-      "stock_name": "海光信息",
-      "code": "688041",
-      "name": "海光信息",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "688256",
-      "stock_name": "寒武纪",
-      "code": "688256",
-      "name": "寒武纪",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
       "stock_code": "600030",
       "stock_name": "中信证券",
       "code": "600030",
@@ -504,10 +428,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -523,10 +447,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -542,10 +466,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -561,14 +485,94 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
         "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "600276",
+      "stock_name": "恒瑞医药",
+      "code": "600276",
+      "name": "恒瑞医药",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "603259",
+      "stock_name": "药明康德",
+      "code": "603259",
+      "name": "药明康德",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "688235",
+      "stock_name": "百济神州",
+      "code": "688235",
+      "name": "百济神州",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "600436",
+      "stock_name": "片仔癀",
+      "code": "600436",
+      "name": "片仔癀",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
       ]
     },
     {
@@ -960,8 +964,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -982,8 +986,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -1004,8 +1008,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -1026,8 +1030,8 @@
       "live_bucket": "核心个股",
       "score": 72.0,
       "bucket": "核心个股",
-      "mentions": 3,
-      "latest_created_at": "2026-07-22T15:16:32+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-23T06:03:16+08:00",
       "reasons": [
         "由主题半导体自动映射进入该条微博股票池"
       ]
@@ -1201,79 +1205,66 @@
       ]
     },
     {
-      "stock_code": "600276",
-      "stock_name": "恒瑞医药",
-      "code": "600276",
-      "name": "恒瑞医药",
-      "sector": "创新药",
+      "stock_code": "002230",
+      "stock_name": "科大讯飞",
+      "code": "002230",
+      "name": "科大讯飞",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "603259",
-      "stock_name": "药明康德",
-      "code": "603259",
-      "name": "药明康德",
-      "sector": "创新药",
+      "stock_code": "688041",
+      "stock_name": "海光信息",
+      "code": "688041",
+      "name": "海光信息",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
-      "stock_code": "688235",
-      "stock_name": "百济神州",
-      "code": "688235",
-      "name": "百济神州",
-      "sector": "创新药",
+      "stock_code": "688256",
+      "stock_name": "寒武纪",
+      "code": "688256",
+      "name": "寒武纪",
+      "sector": "人工智能",
       "themes": [
-        "创新药"
+        "人工智能",
+        "通信",
+        "半导体"
       ],
-      "live_score": 66.0,
+      "live_score": 58.0,
       "live_bucket": "弹性个股",
-      "score": 66.0,
+      "score": 58.0,
       "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "mentions": 4,
+      "latest_created_at": "2026-07-22T20:51:24+08:00",
       "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "600436",
-      "stock_name": "片仔癀",
-      "code": "600436",
-      "name": "片仔癀",
-      "sector": "创新药",
-      "themes": [
-        "创新药"
-      ],
-      "live_score": 66.0,
-      "live_bucket": "弹性个股",
-      "score": 66.0,
-      "bucket": "弹性个股",
-      "mentions": 1,
-      "latest_created_at": "2026-07-22T12:28:18+08:00",
-      "reasons": [
-        "由主题创新药自动映射进入该条微博股票池"
+        "由主题人工智能自动映射进入该条微博股票池"
       ]
     },
     {
@@ -1337,69 +1328,6 @@
       ]
     },
     {
-      "stock_code": "002230",
-      "stock_name": "科大讯飞",
-      "code": "002230",
-      "name": "科大讯飞",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "688041",
-      "stock_name": "海光信息",
-      "code": "688041",
-      "name": "海光信息",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
-      "stock_code": "688256",
-      "stock_name": "寒武纪",
-      "code": "688256",
-      "name": "寒武纪",
-      "sector": "通信",
-      "themes": [
-        "通信",
-        "人工智能",
-        "半导体"
-      ],
-      "live_score": 58.0,
-      "live_bucket": "弹性个股",
-      "score": 58.0,
-      "bucket": "弹性个股",
-      "mentions": 4,
-      "latest_created_at": "2026-07-22T16:34:17+08:00",
-      "reasons": [
-        "由主题人工智能自动映射进入该条微博股票池"
-      ]
-    },
-    {
       "stock_code": "600030",
       "stock_name": "中信证券",
       "code": "600030",
@@ -1446,10 +1374,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -1465,10 +1393,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -1484,10 +1412,10 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
@@ -1503,14 +1431,94 @@
       "themes": [
         "白酒"
       ],
-      "live_score": 56.7,
-      "live_bucket": "弹性个股",
-      "score": 56.7,
-      "bucket": "弹性个股",
+      "live_score": 53.4,
+      "live_bucket": "观察个股",
+      "score": 53.4,
+      "bucket": "观察个股",
       "mentions": 1,
       "latest_created_at": "2026-07-20T10:32:36+08:00",
       "reasons": [
         "由主题白酒自动映射进入该条微博股票池"
+      ]
+    },
+    {
+      "stock_code": "600276",
+      "stock_name": "恒瑞医药",
+      "code": "600276",
+      "name": "恒瑞医药",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "603259",
+      "stock_name": "药明康德",
+      "code": "603259",
+      "name": "药明康德",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "688235",
+      "stock_name": "百济神州",
+      "code": "688235",
+      "name": "百济神州",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
+      ]
+    },
+    {
+      "stock_code": "600436",
+      "stock_name": "片仔癀",
+      "code": "600436",
+      "name": "片仔癀",
+      "sector": "创新药",
+      "themes": [
+        "创新药"
+      ],
+      "live_score": 45.0,
+      "live_bucket": "大池-历史提及",
+      "score": 45.0,
+      "bucket": "大池-历史提及",
+      "mentions": 1,
+      "latest_created_at": "2026-07-22T12:28:18+08:00",
+      "reasons": [
+        "由主题创新药自动映射进入该条微博股票池",
+        "历史池保留(本轮未新增信号)"
       ]
     },
     {
